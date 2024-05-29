@@ -68,7 +68,14 @@ A implementação da função de sinais esta no arquivo math/resolveSign.js. Os 
 O ultimo caso de teste é um exemplo de como validar excessões no jest.
 
 ## Passo 4: Implementação da função de resolução de expressões
+A implementação da função de resolução de expressões esta no arquivo math/resolveExpression.ts. Os testes estão no arquivo test/resolveExpression.test.ts. Note que a função resolveExpression chama a função resolveSign para resolver as operações simples.
+
 A implementação da função de resolução utiliza regex para encontrar os parenteses e resolver as expressões internas, evitei utilizar filas para não complicar ainda mais o algoritmo, visto que ele não é o foco. Mas veja pelos testes, como o algoritmo atende todos os casos que levantamos na etapa inicial, esse nivel de segurança da entrega final, só é possivel atráves dos testes implementados.
 
+Por mais que tenhamos atingido o objetivo de desenvolver o algoritmo e criar os testes. Os testes da função resolveExpression não são exatamente testes unitários, pois não isolam a chamada da função resolveSign. Para resolver isso, vamos utilizar as ferramentas de mock existentes no jest.
 
+## Passo 5: Utilizando Mocks
 
+Mock são utilizados para substituir funções ou objetos em testes unitários. Eles nos permitem garantir que o retorno de uma função seja o que estamos esperando para aquele cenário que está sendo testado.
+
+Os mocks podem ser divididos em stubs ou spies. Em termos simples, Stubs são utilizados para substituir o retorno de uma função, sejá ela uma chamada de api, biblioteca, sistemas ou qualquer fonte externa ao nosso código, enquanto spies são utilizados para verificar se uma função foi chamada e quais parametros ela recebeu.
