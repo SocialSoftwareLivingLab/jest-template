@@ -1,34 +1,31 @@
-# Setup and Teardown in Jest
+# Setup e TearDown no Jest
 
-In this section of the Learning Jest repository, we explore the concepts of setup and teardown in Jest. These are critical for preparing the environment for tests and cleaning up afterward, ensuring tests run in a controlled and repeatable environment.
+Nesta seção do repositório Aprendendo Jest, exploramos os conceitos de setup e teardown no Jest. Estes são tópicos para preparar o ambiente para os testes e limpar depois, garantindo que os testes sejam executados em um ambiente controlado e repetível.
 
-## Understanding Setup and Teardown
+## Entendendo Setup e Teardown
 
-Testing often involves setting up certain conditions before tests run and cleaning up after them. For example, you might need to make sure that some internal state always start the same when you run your tests. Jest provides several methods to handle setup and teardown, which can be used at different levels of your test suite:
+Testar frequentemente envolve configurar certas condições antes dos testes serem executados e limpar após eles. Por exemplo, você pode precisar garantir que algum estado interno sempre comece igual quando você executa seus testes. Jest oferece vários métodos para lidar com esses cenários, que podem ser usados em diferentes níveis de sua suíte de testes:
 
-- **Global Setup/Teardown**: Run once before and after all tests in your project.
-- **File-level Setup/Teardown**: Run once before and after all tests in a particular test file.
-- **Block-level Setup/Teardown**: Run before and after tests within a `describe` block.
+- **Setup/Teardown Global**: Executado uma vez antes e depois de todos os testes em seu projeto.
+- **Setup/Teardown no Nível de Arquivo**: Executado uma vez antes e depois de todos os testes em um arquivo de teste específico.
+- **Setup/Teardown no Nível de Bloco**: Executado antes e depois dos testes dentro de um bloco `describe`.
 
-## Jest's Setup and Teardown Functions
+## Funções de Setup e Teardown do Jest
 
-Jest offers specific functions to facilitate setup and teardown:
+Jest oferece funções específicas para facilitar a Setup e Teardown:
 
-- `beforeAll`: Runs a function before any of the tests in a file run.
-- `afterAll`: Runs a function after all the tests in a file have finished.
-- `beforeEach`: Runs a function before each test in a file.
-- `afterEach`: Runs a function after each test in a file.
+- `beforeAll`: Executa uma função antes de qualquer um dos testes em um arquivo serem executados.
+- `afterAll`: Executa uma função depois que todos os testes em um arquivo terminaram.
+- `beforeEach`: Executa uma função antes de cada teste em um arquivo.
+- `afterEach`: Executa uma função após cada teste em um arquivo.
 
-Absolutely, let's design a more focused example that's relevant to unit testing without involving external dependencies like databases. A common use case for setup and teardown in unit tests is initializing and resetting mock data or configurations that may be used across multiple tests. Here's an example that demonstrates this concept using a simple configuration object that could influence the behavior of functions under test:
+## Exemplo: Inicializando e Redefinindo Configurações
 
+Neste exemplo, demonstraremos como usar as funções de Setup e Teardown do Jest para gerenciar um objeto de Setup que influencia o comportamento das funções que estamos testando. Isso é comum em cenários onde funções se comportam de maneira diferente com base em configurações.
 
-## Example: Initializing and Resetting Configuration Settings
+### 1. Objeto de Configuração
 
-In this example, we will demonstrate how to use Jest's setup and teardown functions to manage a configuration object that influences the behavior of the functions we are testing. This is common in scenarios where functions behave differently based on configuration settings.
-
-### 1. Configuration Handler
-
-Let's assume we have a configuration handler that can enable or disable certain features in our application:
+Vamos assumir que temos um Objeto de Configuração que pode habilitar ou desabilitar certas funcionalidades em nosso aplicativo:
 
 ```typescript
 // configHandler.ts
@@ -51,47 +48,44 @@ const isFeatureEnabled = () => {
 export { enableFeature, disableFeature, isFeatureEnabled };
 ```
 
-### 2. Jest Test File with Setup and Teardown
+### 2. Arquivo de Teste do Jest com Setup e Teardown
 
-In our test file, we want to ensure that `featureEnabled` is enabled before each test and disabled after each, to test the behavior under different conditions:
+No nosso arquivo de teste, queremos garantir que `featureEnabled` esteja habilitado antes de cada teste e desabilitado após cada um, para testar o comportamento sob diferentes condições:
 
 ```typescript
 import { enableFeature, disableFeature, isFeatureEnabled } from './configHandler';
 
-// This will run before each test
+// Isso será executado antes de cada teste
 beforeEach(() => {
     enableFeature();
 });
 
-// This will run after each test
+// Isso será executado após cada teste
 afterEach(() => {
     disableFeature();
 });
 
-describe('Feature Tests', () => {
-    test('should behave correctly when feature is enabled', () => {
-        // The feature should be enabled
+describe('Testes de Funcionalidade', () => {
+    test('deve se comportar corretamente quando a funcionalidade está habilitada', () => {
+        // A funcionalidade deve estar habilitada
         expect(isFeatureEnabled()).toBe(true);
     });
 
-    test('should behave differently when feature is disabled', () => {
-        // Manually disable for this test
+    test('deve se comportar de forma diferente quando a funcionalidade está desabilitada', () => {
+        // Desabilitar manualmente para este teste
         disableFeature();
         expect(isFeatureEnabled()).toBe(false);
     });
 });
 ```
-Every test should be self contained, which means the order of tests and which test are executed may not influence the result of all the tests running. If you comment out the beforeEach and afterEach, you have no way of assuring the initial state of the featureEnabled variable, so the first test can break depending of the order they run.
+Todo teste deve ser autocontido, o que significa que a ordem dos testes e quais testes são executados não podem influenciar o resultado de todos os testes em execução. Se você comentar o beforeEach e afterEach, não terá como garantir o estado inicial da variável featureEnabled, então o primeiro teste pode quebrar dependendo da ordem em que são executados.
 
-In this example beforeEach and AfterEach are used in file level scope, the could also be used in describe level scope, which would make the beforeEach and afterEach run only for the tests inside the describe block. Another option is to set them globally, which would make them run for all tests in the project, which can be particularly useful for cleaning up global variables or things like that.
+Neste exemplo, `beforeEach` e `afterEach` são usados no escopo do nível de arquivo, eles também poderiam ser usados no escopo do nível de bloco `describe`, o que faria com que o beforeEach e afterEach fossem executados apenas para os testes dentro do bloco `describe`. Outra opção é configurá-los globalmente, o que os faria rodar para todos os testes no projeto, o que pode ser particularmente útil para limpar variáveis globais ou coisas assim.
 
-## Explanation:
+## Explicação:
 
-- **`beforeEach`** is used here to ensure that the feature is enabled before each test runs. This is helpful when the default state of `featureEnabled` might be `false`, or if other tests change the state inadvertently.
+- **`beforeEach`** é usado aqui para garantir que a funcionalidade esteja habilitada antes de cada teste ser executado. Isso é útil quando o estado padrão de `featureEnabled` pode ser `false`, ou se outros testes alteram o estado.
 
-- **`afterEach`** resets the feature to its disabled state after each test. This ensures that no residual state from one test can interfere with another, maintaining test isolation and reliability.
+- **`afterEach`** redefine a funcionalidade para seu estado desabilitado após cada teste. Isso garante que nenhum estado de um teste possa interferir com outro, mantendo a isolamento e a confiabilidade dos testes.
 
-- The tests themselves check the behavior of the system when the feature is enabled and disabled, respectively. This setup allows us to verify that our application behaves correctly in both scenarios without needing to manually reset conditions for every test.
-
-This example provides a clear demonstration of using Jest's setup and teardown functions to manage application state across tests, ensuring consistent and isolated testing environments for each test case.
-
+- Os próprios testes verificam o comportamento do sistema quando a funcionalidade está habilitada e desabilitada, respectivamente. Isso nos permite verificar que nossa aplicação se comporta corretamente em ambos os cenários sem a necessidade de redefinir manualmente as condições para cada teste.

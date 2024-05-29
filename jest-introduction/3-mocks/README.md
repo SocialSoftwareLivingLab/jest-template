@@ -1,26 +1,27 @@
-# Mocks in Jest
+# Mocks no Jest
 
-Welcome to the "Mocks" section of our Learning Jest repository! In this folder, we delve into the concept of mocking in unit tests using Jest. Mocking is a powerful technique that allows you to isolate the piece of code you want to test by replacing its dependencies with mock objects that simulate the behavior of the real ones.
+Bem-vindo à seção "Mocks" do nosso repositório! Nesta pasta, exploramos o conceito de mocks em testes unitários usando o Jest. Mocking é uma técnica poderosa que permite isolar o pedaço de código que você deseja testar, substituindo suas dependências por objetos mock que simulam o comportamento dos reais.
 
-## What are Mocks?
+## O que são Mocks?
 
-Mocks are simulated objects that mimic the behavior of real objects in controlled ways. A mock can be set up to return certain values in response to function calls, which can be very useful in a test environment where you want to isolate the functionality of a specific module without invoking actual side effects or dependencies.
+Mocks são objetos simulados que imitam o comportamento de objetos reais. Um mock pode ser configurado para retornar certos valores em resposta a chamadas de função, o que pode ser muito útil em um ambiente de teste onde você deseja isolar a funcionalidade de um módulo específico sem invocar efeitos colaterais ou dependências reais.
 
-## Why Use Mocks?
+## Por que Usar Mocks?
 
-- **Controlled Environment**: Mocks create a controlled test environment by mimicking specific functionalities and returning predictable responses.
-- **Isolation**: By using mocks, you can isolate the piece of code you are testing. This helps ensure that your tests are not affected by external factors such as databases, APIs, or other services.
-- **Performance**: Mocks help in avoiding calls to external services or databases, which can significantly speed up the execution of tests.
-- **Flexibility**: You can test various scenarios by manipulating the responses of mocks without the need to alter the actual external dependencies.
+- **Ambiente Controlado**: Mocks criam um ambiente de teste controlado ao imitar funcionalidades específicas e retornar respostas previsíveis.
+- **Isolamento**: Ao usar mocks, você pode isolar o pedaço de código que está testando. Isso ajuda a garantir que seus testes não sejam afetados por fatores externos, como bancos de dados, APIs ou outros serviços.
+- **Desempenho**: Mocks ajudam a evitar chamadas a serviços externos ou bancos de dados, o que pode acelerar significativamente a execução dos testes.
+- **Flexibilidade**: Você pode testar vários cenários manipulando as respostas dos mocks sem a necessidade de alterar as dependências externas reais.
 
-## How to Use Mocks in Jest
+## Como Usar Mocks no Jest
 
-Jest provides several ways to create and manage mocks, including automatic and manual mocks. You can create mocks for modules, functions, or even API calls.
-## Example: Mocking And Spying on a Simple Dependency
+O Jest oferece várias maneiras de criar e gerenciar mocks, incluindo mocks automáticos e manuais. Você pode criar mocks para módulos, funções ou até mesmo chamadas de API.
 
-Let's say we have a module that fetches user data from an API, processes it and log the current operation. We can mock this API call to ensure our tests run reliably and quickly.
+## Exemplo: Mockando e Espionando uma Dependência Simples
 
-### 1. User Service Module
+Vamos supor que temos um módulo que busca dados de usuário de uma API, processa esses dados e faz um log da operação atual. Podemos mockar essa chamada de API para garantir que nossos testes sejam executados de forma confiável e rápida.
+
+### 1. Módulo de Serviço de Usuário
 
 ```typescript
 // userService.ts
@@ -28,22 +29,22 @@ import { fetchUserData } from './api';
 
 export const getUserFullName = async (userId: string) => {
     const userData = await fetchUserData(userId);
-    console.log(`Fetching data for user ID: ${userId}`);  // Logging the operation
+    console.log(`Buscando dados para o ID do usuário: ${userId}`);  // Registrando a operação
     return `${userData.firstName} ${userData.lastName}`;
 };
 ```
 
-### 2. API Module
+### 2. Módulo API
 
 ```typescript
 // api.ts
 export const fetchUserData = async (userId: string) => {
-    // This function would normally fetch data from an external API
-    throw new Error('fetchUserData must be mocked in tests');
+    // Normalmente, essa função buscaria dados de uma API externa
+    throw new Error('fetchUserData deve ser mockado nos testes');
 };
 ```
 
-### 3. Test with Mock
+### 3. Teste com Mock
 
 ```typescript
 import { getUserFullName } from './userService';
@@ -54,107 +55,25 @@ jest.mock('./api', () => ({
 }));
 
 describe('getUserFullName', () => {
-    it('returns the full name of the user and logs the operation', async () => {
-        // Spy on console.log
+    it('retorna o nome completo do usuário e registra a operação', async () => {
+        // Espionar console.log
         const consoleSpy = jest.spyOn(console, 'log');
         const fullName = await getUserFullName('123');
 
         expect(fullName).toBe('John Doe');
-        expect(consoleSpy).toHaveBeenCalledWith('Fetching data for user ID: 123');
+        expect(consoleSpy).toHaveBeenCalledWith('Buscando dados para o ID do usuário: 123');
 
-        // Clean up the spy to prevent memory leaks or affecting other tests
+        // Limpar o spy para evitar vazamentos de memória ou afetar outros testes
         consoleSpy.mockRestore();
     });
 });
 ```
 
-## Explanation:
+## Explicação:
 
-- **`jest.mock`**: This function is used to automatically mock the `api` module. We define a custom implementation for `fetchUserData` that returns a promise resolved with a mock user object.
-- The `getUserFullName` function uses this mock instead of the actual `api.fetchUserData`, allowing us to test it without making real API calls.
-- The test checks if `getUserFullName` correctly constructs the full name based on the mocked data.
-- **`jest.spyOn`**: This function is used to create a spy that tracks calls to `console.log`. It allows us to verify that logging occurs as expected without interfering with the functionality of `console.log`.
-- **Assertion with Spy**: We use `expect(consoleSpy).toHaveBeenCalledWith(...)` to check if `console.log` was called with the correct arguments. This verifies that our function logs the expected message during its execution.
-- **`mockRestore`**: After our assertions, we call `consoleSpy.mockRestore()` to restore `console.log` to its original state. This is important in a testing environment to ensure that changes made by spies do not affect other tests.
-
----
-
-# Understanding Mocks, Stubs, and Spies
-
-When writing tests for software, it's crucial to understand the tools at your disposal to isolate and inspect your code. Mocks, stubs, and spies are three such tools, each with specific purposes and use cases in the testing landscape. This guide will help you understand these concepts and how to apply them effectively.
-
-## Mocks
-
-**Definition**: Mocks are simulated objects that replace real objects in your testing environment. They are fully controllable by the tester and can be set up to return specific values, throw exceptions, or perform certain actions when methods are called.
-
-**When to Use**:
-- When you need to simulate complex object behaviors and have full control over their responses.
-- When you want to verify interactions between different objects, such as ensuring specific methods are called.
-
-**Example**:
-```javascript
-jest.mock('../api/userApi');
-import { getUser } from '../api/userApi';
-
-test('should call getUser', () => {
-  getUser('userId');
-  expect(getUser).toHaveBeenCalledWith('userId');
-});
-```
-
-## Stubs
-
-**Definition**: Stubs are a type of test double that replace functions with a simpler implementation that returns a fixed value. Stubs do not track calls or record behavior but serve purely to stand in for the real implementation.
-
-**When to Use**:
-- When you need to replace a function or object with a simplified version that provides a consistent return value.
-- When testing code that depends on external systems or complex logic that is irrelevant to the test's purpose.
-
-**Example**:
-```javascript
-function fetchData() {
-  return true; // Stub replaces actual data fetching logic.
-}
-
-test('test fetchData function', () => {
-  const result = fetchData();
-  expect(result).toBe(true);
-});
-```
-
-## Spies
-
-**Definition**: Spies are used to track interactions with functions or methods. They wrap around existing functions, allowing them to operate normally while also recording information about their calls, arguments, and return values.
-
-**When to Use**:
-- When you want to observe the behavior of a function without affecting its execution.
-- When you need to verify how functions are called during tests without disrupting their natural behavior.
-
-**Example**:
-```javascript
-const consoleSpy = jest.spyOn(console, 'log');
-
-test('logs correct message', () => {
-  console.log('Test message');
-  expect(consoleSpy).toHaveBeenCalledWith('Test message');
-});
-```
-
-## Comparison
-
-- **Mocks** are about creating a fake version of an object or function with behavior controlled by the tester. They are most useful for behavioral testing where how your code executes is as important as what it executes.
-- **Stubs** provide predetermined responses and are useful for bypassing unnecessary complexity. They are mainly used in state verification testing.
-- **Spies** provide insights into function usage without affecting their execution, ideal for integration tests where you need to verify that functions are called correctly while still performing their intended operations.
-
-## Choosing the Right Tool
-
-Selecting between mocks, stubs, and spies depends on your specific testing needs:
-- Use **mocks** when you need to assert on the interaction between components.
-- Use **stubs** when you need to isolate your test from external dependencies by providing a simplified output.
-- Use **spies** when you want to perform checks on function calls while keeping their original functionality.
-
-Understanding these tools and their appropriate applications can enhance your testing strategy, leading to more robust and maintainable code.
-
----
-
-This guide provides a concise yet comprehensive look at mocks, stubs, and spies, helping you decide when and how to use each effectively in your testing practices.
+- **`jest.mock`**: Esta função é usada para mockar automaticamente o módulo `api`. Definimos uma implementação personalizada para `fetchUserData` que retorna uma promessa resolvida com um objeto de usuário mock.
+- A função `getUserFullName` utiliza esse mock em vez do `api.fetchUserData` real, permitindo-nos testá-la sem fazer chamadas reais de API.
+- O teste verifica se `getUserFullName` constrói corretamente o nome completo com base nos dados mockados.
+- **`jest.spyOn`**: Esta função é usada para criar um spy que rastreia chamadas para `console.log`. Isso nos permite verificar que o registro ocorre conforme esperado sem interferir na funcionalidade de `console.log`.
+- **Expect com Spy**: Usamos `expect(consoleSpy).toHaveBeenCalledWith(...)` para verificar se `console.log` foi chamado com os argumentos corretos. Isso verifica que nossa função registra a mensagem esperada durante sua execução.
+- **`mockRestore`**: Após nossas asserções, chamamos `consoleSpy.mockRestore()` para restaurar `console.log` ao seu estado original. Isso é importante em um ambiente de teste para garantir que as alterações feitas pelos espiões não afetem outros testes.

@@ -1,27 +1,27 @@
-# Jest Basics
+# Noções Básicas do Jest
 
-Welcome to the "Jest Basics" section of our Learning Jest repository! This folder is designed to introduce you to Jest and the concept of unit testing. We'll cover what Jest is, why it's used, and provide a simple example to get you started with writing tests using Jest in TypeScript.
+Bem-vindo à seção "Noções Básicas do Jest" do nosso repositório! Esta pasta é projetada para introduzir você ao Jest e ao conceito de teste unitário. Vamos cobrir o que é, por que é usado e fornecer um exemplo simples para você começar a escrever testes usando TypeScript.
 
-## What is Jest?
+## O que é Jest?
 
-Jest is a powerful JavaScript testing framework, designed to ensure correctness of any JavaScript codebase. It allows you to write tests with an API that is approachable and familiar. Jest is used by teams of all sizes to test web applications, node.js services, and mobile apps.
+Jest é um poderoso framework de teste, projetado para qualquer base de código JavaScript. Ele permite que você escreva testes com uma API que é acessível e familiar. Jest é usado por equipes de todos os tamanhos para testar aplicações web, serviços node.js e aplicativos móveis.
 
-## Why Unit Testing?
+## Por que Testes Unitários?
 
-Unit testing is a software testing method where individual units or components of a software are tested independently. The purpose is to validate that each unit of the software performs as designed. This is crucial for:
+O teste unitário é um método de teste de software onde unidades ou componentes individuais de um software são testados independentemente. O propósito é validar que cada unidade do software funcione conforme projetado. Isso é crucial para:
 
-- Identifying problems early in the development cycle.
-- Guaranteeing that changes to your code do not break existing functionality.
-- Simplifying integration.
-- Documenting your codebase.
+- Identificar problemas no início do ciclo de desenvolvimento.
+- Garantir que as alterações no seu código não quebrem a funcionalidade existente.
+- Simplificar a integração.
+- Documentar sua base de código.
 
-Unit tests are typically automated and can be run quickly and frequently, which is a key part of continuous integration practices.
+Os testes unitários são geralmente automatizados e podem ser executados de forma rápida e frequente, o que é uma parte chave das práticas de integração contínua.
 
-## Example: Testing a Simple Function
+## Exemplo: Testando uma Função Simples
 
-Let's consider a simple function that adds two numbers, written in TypeScript. We'll write a test to ensure that this function is performing correctly.
+Vamos considerar uma função simples que adiciona dois números, escrita em TypeScript. Vamos escrever um teste para garantir que esta função está funcionando corretamente.
 
-1. **Create a file for our function (`sum.ts`):**
+1. **Crie um arquivo para nossa função (`sum.ts`):**
 
 ```typescript
 function sum(a: number, b: number): number {
@@ -31,73 +31,69 @@ function sum(a: number, b: number): number {
 export default sum;
 ```
 
-This is just a sum function to show our example.
+Esta é apenas uma função de soma para mostrar nosso exemplo.
 
-
-2. **Create a test file (`sum.test.ts`):**
+2. **Crie um arquivo de teste (`sum.test.ts`):**
 
 ```typescript
 import sum from './sum';
 
-test('adds 1 + 2 to equal 3', () => {
+test('adiciona 1 + 2 para igualar 3', () => {
     expect(sum(1, 2)).toBe(3);
 });
 
 describe('sum', () => {
-    it('should add two numbers', () => {
+    it('deve adicionar dois números', () => {
         expect(sum(1, 2)).toBe(3);
     });
 });
-
 ```
-Here is a breakdown of the test file:
+Entendendo o arquivo de testes:
 
-#### Basic Test Example
+#### Exemplo de Teste Básico
 
 ```javascript
-test('adds 1 + 2 to equal 3', () => {
+test('adiciona 1 + 2 para igualar 3', () => {
     expect(sum(1, 2)).toBe(3);
 });
 ```
 
-#### Explanation:
-- **`test` Function**: This is a global function provided by Jest to define a test. The first argument is a string describing what the test does. In this case, it says "adds 1 + 2 to equal 3".
-  
-- **Callback Function**: The second argument is a callback function that Jest calls to run the test. This function contains the actual testing code.
+#### Explicação:
+- **Função `test`**: Esta é uma função global fornecida pelo Jest para definir um teste. O primeiro argumento é uma string descrevendo o que o teste faz. Neste caso, diz "adiciona 1 + 2 para igualar 3".
 
-- **`expect` Function**: Inside the test, the `expect` function is called. This function is used to make an assertion about a particular aspect of your code. In other words, it's used to check if something is true. In this case, it's checking the output of the `sum` function.
+- **Função de Callback**: O segundo argumento é uma função de callback que o Jest chama para executar o teste. Esta função contém o código de teste real.
 
-- **`toBe` Matcher**: This is what we call a "matcher" and it determines how the value given to `expect` is tested. Here, `toBe(3)` checks if the result of `sum(1, 2)` is exactly `3`.
+- **Função `expect`**: Dentro do teste, a função `expect` é chamada. Esta função é usada para fazer uma afirmação sobre um aspecto particular do seu código. Em outras palavras, é usada para verificar se algo é verdadeiro. Neste caso, está verificando o resultado da função `sum`.
 
-#### Using `describe` and `it`
+- **Comparador `toBe`**: Isso é o que chamamos de "comparador" e determina como o valor dado ao `expect` é testado. Aqui, `toBe(3)` verifica se o resultado de `sum(1, 2)` é exatamente `3`.
+
+#### Usando `describe` e `it`
 
 ```javascript
 describe('sum', () => {
-    it('should add two numbers', () => {
+    it('deve adicionar dois números', () => {
         expect(sum(1, 2)).toBe(3);
     });
 });
 ```
 
-#### Explanation:
-- **`describe` Function**: This function is used to group together similar tests. It's very useful for organizing your tests and making the test output easier to read and manage. The first argument to `describe` is a string that describes the group of tests.
+#### Explicação:
+- **Função `describe`**: Esta função é usada para agrupar testes similares. É muito útil para organizar seus testes e tornar a saída do teste mais fácil de ler e gerenciar. O primeiro argumento para `describe` é uma string que descreve o grupo de testes.
 
-- **`it` Function**: This is an alias for the `test` function. It's used the same way as `test`, but it's often used inside `describe` blocks to make tests read more like a sentence: "it should add two numbers."
+- **Função `it`**: É um alias para a função `test`. É usada da mesma maneira que `test`, mas muitas vezes é usada dentro de blocos `describe` para fazer os testes lerem mais como uma frase: "it deve adicionar dois números".
 
-- **Nested Function Structure**: Inside the `describe` block, you use `it` to define individual tests. This hierarchical structure helps in organizing tests, especially when you have a large number of them, or when they cover multiple functions of a component or module.
+- **Estrutura de Função Aninhada**: Dentro do bloco `describe`, você usa `it` para definir testes individuais. Esta estrutura hierárquica ajuda a organizar os testes, especialmente quando você tem um grande número deles, ou quando eles cobrem várias funções de um componente ou módulo.
 
-<BR />
+3. **Execute o teste:**
 
-3. **Run the test:**
-
-Open your terminal, navigate to the directory containing your project, and run:
+Abra seu terminal, navegue até o diretório contendo seu projeto e execute:
 
 ```bash
 npm test
 ```
 
-This command will execute the test defined in `sum.test.ts`, and you should see an output indicating whether the test passed or failed.
+Este comando executará o teste definido em `sum.test.ts`, e você deve ver uma saída indicando se o teste passou ou falhou.
 
-## Next Steps
+## Próximos Passos
 
-Explore more about Jest's features such as snapshots, mocks, and advanced configurations by reading the Jest documentation or continuing through our other guides in this repository.
+Explore mais sobre as funcionalidades do Jest, como snapshots, mocks e configurações avançadas, lendo a documentação do Jest ou continuando através de nossos outros guias neste repositório.
