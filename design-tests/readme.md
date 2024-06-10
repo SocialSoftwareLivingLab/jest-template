@@ -63,7 +63,7 @@ Vamos criar um duas funções para o sistema, uma que resolve as expressões sim
 Poderiamos usar qualquer outro framework, isso não é a parte importante, você verá inclusive que a substituição do express se daria de forma bem simples caso necessário.
 
 ## Passo 3: Implementação da função de resolução dos sinais.
-A implementação da função de operadores esta no arquivo math/resolveSign.js. Os testes estão no arquivo test/resolveSign.test.js. Note que quando o sinal da operação não for mapeado a expressão levanta um erro. Essa são as duas responsabilidades da função. Resolver sinais e falhar se o sinal não for valido para a nossa especificação.
+A implementação da função de operadores esta no arquivo [math/resolveSign.js](https://github.com/SocialSoftwareLivingLab/jest-template/blob/main/design-tests/test/resolveSign.test.ts). Os testes estão no arquivo test/resolveSign.test.js. Note que quando o sinal da operação não for mapeado a expressão levanta um erro. Essa são as duas responsabilidades da função. Resolver sinais e falhar se o sinal não for valido para a nossa especificação.
 
 O ultimo caso de teste é um exemplo de como validar excessões no jest.
 
