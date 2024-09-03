@@ -21,6 +21,8 @@ Os testes unitários são geralmente automatizados e podem ser executados de for
 
 Vamos considerar uma função simples que adiciona dois números, escrita em TypeScript. Vamos escrever um teste para garantir que esta função está funcionando corretamente.
 
+Você pode executar esse teste em sua própria máquina. Para isso, siga as instruções de _setup_ mostradas em https://jestjs.io/pt-BR/docs/getting-started.
+
 1. **Crie um arquivo para nossa função (`sum.ts`):**
 
 ```typescript
@@ -33,7 +35,7 @@ export default sum;
 
 Esta é apenas uma função de soma para mostrar nosso exemplo.
 
-2. **Crie um arquivo de teste (`sum.test.ts`):**
+1. **Crie um arquivo de teste (`sum.test.ts`):**
 
 ```typescript
 import sum from './sum';
@@ -48,7 +50,7 @@ describe('sum', () => {
     });
 });
 ```
-Entendendo o arquivo de testes:
+Agora vamos entender o arquivo de testes:
 
 #### Exemplo de Teste Básico
 
@@ -61,13 +63,13 @@ test('adiciona 1 + 2 para igualar 3', () => {
 #### Explicação:
 - **Função `test`**: Esta é uma função global fornecida pelo Jest para definir um teste. O primeiro argumento é uma string descrevendo o que o teste faz. Neste caso, diz "adiciona 1 + 2 para igualar 3".
 
-- **Função de Callback**: O segundo argumento é uma função de callback que o Jest chama para executar o teste. Esta função contém o código de teste real.
+- **Função de Callback**: O segundo argumento(a arrow function) é uma função de callback que o Jest chama para executar o teste. Esta função contém o código de teste real.
 
 - **Função `expect`**: Dentro do teste, a função `expect` é chamada. Esta função é usada para fazer uma afirmação sobre um aspecto particular do seu código. Em outras palavras, é usada para verificar se algo é verdadeiro. Neste caso, está verificando o resultado da função `sum`.
 
 - **Comparador `toBe`**: Isso é o que chamamos de "comparador" e determina como o valor dado ao `expect` é testado. Aqui, `toBe(3)` verifica se o resultado de `sum(1, 2)` é exatamente `3`.
 
-#### Usando `describe` e `it`
+#### Exemplo usando `describe` e `it`
 
 ```javascript
 describe('sum', () => {
@@ -78,13 +80,13 @@ describe('sum', () => {
 ```
 
 #### Explicação:
-- **Função `describe`**: Esta função é usada para agrupar testes similares. É muito útil para organizar seus testes e tornar a saída do teste mais fácil de ler e gerenciar. O primeiro argumento para `describe` é uma string que descreve o grupo de testes.
+- **Função `describe`**: Esta função é usada para agrupar testes similares. É muito útil para organizar seus testes e tornar suas saídas mais fáceis de ler e gerenciar. O primeiro argumento para `describe` é uma string que descreve o grupo de testes.
 
-- **Função `it`**: É um alias para a função `test`. É usada da mesma maneira que `test`, mas muitas vezes é usada dentro de blocos `describe` para fazer os testes lerem mais como uma frase: "it deve adicionar dois números".
+- **Função `it`**: É um _alias_ para a função `test`. Usada da mesma maneira que `test`, mas muitas vezes dentro de blocos `describe`, o que possibilita a leitura dos testes como frases. Neste exemplo: "it deve adicionar dois números".
 
-- **Estrutura de Função Aninhada**: Dentro do bloco `describe`, você usa `it` para definir testes individuais. Esta estrutura hierárquica ajuda a organizar os testes, especialmente quando você tem um grande número deles, ou quando eles cobrem várias funções de um componente ou módulo.
+- **Estrutura de Função Aninhada(_nested function_)**: Dentro do bloco `describe`, você usa `it` para definir testes individuais. Esta estrutura hierárquica ajuda a organizar os testes, especialmente quando você tem um grande número deles, ou quando eles cobrem várias funções de um componente ou módulo.
 
-3. **Execute o teste:**
+1. **Execute o teste:**
 
 Abra seu terminal, navegue até o diretório contendo seu projeto e execute:
 
