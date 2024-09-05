@@ -76,6 +76,6 @@ Por mais que tenhamos atingido o objetivo de desenvolver o algoritmo e criar os 
 
 ## Passo 5: Utilizando Mocks
 
-Mocks são utilizados para substituir funções ou objetos em testes unitários. Eles nos permitem garantir que o retorno de uma função seja o que estamos esperando para aquele cenário que está sendo testado.
+Mocks (também denominados dublês de teste) são utilizados para substituir funções ou objetos em testes unitários. Eles nos permitem garantir que o retorno de uma função seja o que estamos esperando para aquele cenário que está sendo testado.
 
-Os mocks podem ser divididos em stubs ou spies. Em termos simples, Stubs são utilizados para substituir o retorno de uma função, sejá ela uma chamada de api, biblioteca, sistemas ou qualquer fonte externa ao nosso código, enquanto spies são utilizados para verificar se uma função foi chamada e quais parametros ela recebeu.
+Dois tipos bastante úteis de mocks são _stubs_ ou _spies_. Em termos simples, _Stubs_ são utilizados para substituir o retorno de uma função, sejá ela uma chamada de api, biblioteca, sistemas ou qualquer fonte externa ao nosso código, enquanto _spies_ são utilizados para verificar se uma função foi chamada e quais parametros ela recebeu.
